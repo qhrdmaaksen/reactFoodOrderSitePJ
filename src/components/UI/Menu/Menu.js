@@ -1,15 +1,14 @@
 import React, {Fragment} from 'react';
-import classes from './MenuItem.module.css'
 import AvailableMenu from './AvailableMenu'
 import MenuSummary from './MenuSummary'
 
-const MenuItem = () => {
+const Menu = () => {
 	return (
 			<Fragment>
-				<AvailableMenu />
-				<MenuSummary />
+				<MenuSummary/>
+				<AvailableMenu/>
 			</Fragment>
 	)
 }
 
-export default MenuItem;
+export default Menu;

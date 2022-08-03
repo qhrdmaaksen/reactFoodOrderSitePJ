@@ -1,5 +1,7 @@
 import React, {Fragment} from 'react';
 import classes from './AvailableMenu.module.css'
+import Card from '../Card/Card'
+import MenuItem from './MenuItem/MenuItem'
 
 const DUMMY_MEALS = [
 	{
@@ -28,14 +30,23 @@ const DUMMY_MEALS = [
 	},
 ];
 
-const menuList = DUMMY_MEALS.map(menu => <li>{menu.name}</li>)
+const menuList = DUMMY_MEALS.map(menu =>
+		/*prop 전달*/
+		<MenuItem
+				key={menu.id}
+				name={menu.name}
+				description={menu.description}
+				price={menu.price}
+		/>)
 
 const Available = () => {
 	return (
 			<section className={classes.meals}>
-				<ul>
-					{menuList}
-				</ul>
+				<Card>
+					<ul>
+						{menuList}
+					</ul>
+				</Card>
 			</section>
 	)
 }

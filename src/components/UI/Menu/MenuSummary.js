@@ -4,7 +4,7 @@ import classes from './MenuSummary.Module.css'
 const MenuSummary = () => {
 	return (
 			<section className={classes.summary}>
-				<h1>맛있는 음식을 배달해 드립니다.</h1>
+				<h2>맛있는 음식을 배달해 드립니다.</h2>
 				<p>
 					제공되는 다양한 식사 중에서 가장 좋아하는 식사를 선택하고 집에서 맛있는 점심 또는 저녁 식사를 즐기십시오.
 				</p>
