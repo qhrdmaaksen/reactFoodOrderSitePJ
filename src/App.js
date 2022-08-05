@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
-import Header from './components/UI/Layout/Header'
-import Menu from './components/UI/Menu/Menu'
+import Header from './components/Layout/Header'
+import Menu from './components/Menu/Menu'
 
 function App() {
   return (

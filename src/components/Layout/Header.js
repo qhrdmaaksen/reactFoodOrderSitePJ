@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 import classes from './Header.module.css' /*(내장 css 모듈 지원 사용 예정)*/
-import mealsIMG from '../../../assets/meals.jpg'
+import mealsIMG from '../../assets/meals.jpg'
 import HeaderCartButton from './HeaderCartButton'
 
 const Header = (props) => {

@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
-import classes from './MenuSummary.Module.css'
+import classes from './MealsSummary.Module.css'
 
-const MenuSummary = () => {
+const MealsSummary = () => {
 	return (
 			<section className={classes.summary}>
 				<h2>맛있는 음식을 배달해 드립니다.</h2>
@@ -15,4 +15,4 @@ const MenuSummary = () => {
 	)
 }
 
-export default MenuSummary ;
+export default MealsSummary ;

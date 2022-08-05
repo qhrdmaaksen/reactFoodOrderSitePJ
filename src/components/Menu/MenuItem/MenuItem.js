@@ -1,5 +1,6 @@
 import React, {Fragment} from 'react';
 import classes from './MenuItem.module.css'
+import MenuItemForm from './MenuItemForm'
 
 const MenuItem = (props) => {
 		const price = `${props.price} 원`;
@@ -11,7 +12,7 @@ const MenuItem = (props) => {
 					<div className={classes.price}>{price}</div>
 				</div>
 				<div>
-
+					<MenuItemForm id={props.id}/>
 				</div>
 			</li>
 	)

@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 import classes from './AvailableMenu.module.css'
-import Card from '../Card/Card'
+import Card from '../UI/Card'
 import MenuItem from './MenuItem/MenuItem'
 
 const DUMMY_MEALS = [
@@ -33,6 +33,7 @@ const DUMMY_MEALS = [
 const menuList = DUMMY_MEALS.map(menu =>
 		/*prop 전달*/
 		<MenuItem
+				id={menu.id} /*id 가 props 의 형태로 MealItem 에 전달되야함, 따라서 AvailableMeals  구성 요소 내부에서 id={menu.id} 을 생성해야함*/
 				key={menu.id}
 				name={menu.name}
 				description={menu.description}

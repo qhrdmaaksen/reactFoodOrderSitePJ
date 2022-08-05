@@ -1,4 +1,4 @@
-/*SVG ICON in File*/
+/*SVG ICON in CartIcon.js File*/
 const CartIcon = () => {
 	return (
 			<svg
