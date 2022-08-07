@@ -4,7 +4,7 @@ import classes from './HeaderCartButton.module.css'
 
 const HeaderCartButton = (props) => {
 	return (
-			<button className={classes.button}>
+			<button className={classes.button} onClick={props.onHeaderOnclick}>{/*Header compo 에 연결된 onClick*/}
 				{/*---카트 아이콘---*/}
 				<span className={classes.icon}>
 					<CartIcon />

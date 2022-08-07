@@ -1,5 +1,6 @@
 import React from 'react';
 import classes from './Cart.module.css'
+import Modal from '../UI/Modal'
 
 /*내 장바구니*/
 const Cart = (props) => {
@@ -18,17 +19,17 @@ const Cart = (props) => {
 	);
 
 	return (
-			<div>
+			<Modal>
 				{cartItems}
 				<div className={classes.total}>
-					<span>총 가격</span>
+					<span>총 수량</span>
 					<span>60000</span>
 				</div>
 				<div className={classes.actions}>
-					<button className={classes[`button--alt`]}>닫기</button>
+					<button className={classes[`button--alt`]} onClick={props.onClose}>닫기</button>
 					<button className={classes.button}>주문</button>
 				</div>
-			</div>
+			</Modal>
 	)
 }
 export default Cart;

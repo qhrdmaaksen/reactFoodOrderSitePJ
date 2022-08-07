@@ -8,7 +8,7 @@ const Header = (props) => {
 			<Fragment>
 				<header className={classes.header}>
 					<h1>vitamin777 리엑트 레스토랑</h1>
-					<HeaderCartButton>Cart</HeaderCartButton>
+					<HeaderCartButton onHeaderOnclick={props.onShowCart}>Cart</HeaderCartButton>{/*Header 에서 onShowCart prop 받음(showCartHandler 를 가리킴)*/}
 				</header>
 				<div className={['main-image']}>
 					<img src={mealsIMG} alt='테이블가득음식이미지'/>
