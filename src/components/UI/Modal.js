@@ -1,10 +1,12 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import classes from './Modal.module.css'
 
 const Backdrop = (props) => {
 	return (
+			/*App.js 에서 설정한 onClose 속성*/
 			<div className={classes.backdrop}
+					 onClick={props.onClose}
 			>
 			</div>
 	)
@@ -24,7 +26,7 @@ const Modal = (props) => {
 	return (
 			<React.Fragment>
 				{ReactDOM.createPortal(
-						<Backdrop/>,
+						<Backdrop onClose={props.onClose}/>,
 						portalElement)}
 				{ReactDOM.createPortal(
 						<ModalOverlay>
