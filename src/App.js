@@ -17,7 +17,7 @@ function App() {
 
   return (
     <CartProvider>
-      {cartIsShown&& <Cart onClose={hideCartHandler}/>}{/*조건부 렌더링*/}
+      {cartIsShown && <Cart onClose={hideCartHandler}/>}{/*조건부 렌더링*/}
       <Header onShowCart={showCartHandler}/> {/*header 내부 showCartHandler 함수 호출하려면 함수 포인터를 전달해야함 프롭을 통해, 함수를 갖는 프롭은 on 으로 시작*/}
       <main>
         <Menu />
