@@ -10,10 +10,31 @@ const defaultCartState = {
 * -또한 아래 컴포넌트 렌더링될때마다 항상 재생성되어서도 안되기때문, 리듀서 함수에서는 state 객체와 액션을 받는다(리액트에의해 자동으로)*/
 const cartReducer = (state, action) => {
 	if (action.type === 'ADD') {
-		const updatedItems =
-				state.items.concat(action.item); /*concat 은 기존 배열 편집이 아닌 새 배열을 반환함*/
+
+		/*장바구니에있는 기존 항목으로 가서 js 에 내장된 메소드 findIndex 호출
+		* -findIndex : 배열에서 항목의 인덱스를 찾아줌, boolean 으로 반환함*/
+		const existingCartItemIndex = state.items.findIndex((item) =>
+				item.id === action.item.id); /*현재 배열에서 보고있는 항목이 전달된 액션으로 추가하는 항목과 동일한 id 를 가지는지*/
+
+		const existingCartItem = state.items[existingCartItemIndex]; /*findIndex 로 항목이 존재한다면 existingCartItem 으로 얻음*/
+		let updatedItems;
+		if (existingCartItem) {
+			/*이미 배열에있는 경우 updatedItem 은 새 객체와 같다고 설정되어 수량을 업데이트함
+			* 이미 같은 아이템이 들어있다면 기존 아이템의 수량을 업데이트함*/
+			const updatedItem = {
+				...existingCartItem,
+				amount: existingCartItem.amount + action.item.amount,
+			}
+			updatedItems = [...state.items] /*기존 항목을 복사하며 변경 불가능하게 업데이트함, 메모리에있는 이전 배열을 편집하지 않고 이전 객체를 복사하는 새 배열을 만듦*/
+			updatedItems[existingCartItemIndex] = updatedItem; /*CartItems 배열에서 식별한 오래된 항목을 선택해 updatedItem 으로 덮어 씌움 */
+		} else {
+			/*항목이 CartItems 배열에 처음으로 추가되는 경우*/
+			updatedItems = state.items.concat(action.item) /* concat 은 기존 배열 편집이 아닌 새 배열을 반환함 */
+		}
+
 		const updatedTotalAmount =
 				state.totalAmount + action.item.price * action.item.amount;
+
 		return {
 			items: updatedItems,
 			totalAmount: updatedTotalAmount,
