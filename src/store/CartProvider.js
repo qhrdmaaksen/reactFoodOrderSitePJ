@@ -6,10 +6,16 @@ const defaultCartState = {
 	totalAmount: 0,
 }
 
+
+/*장바구니 추가 로직*/
+
 /*음식이 이미 장바구니에있는지 여부확인 및 아이템 삭제에따른 복잡도에따라 useReducer 사용, 외부에서 사용하는 이유는 리듀서 함수가 아래 컴포넌트에서 아무것도 필요하지않기때문
 * -또한 아래 컴포넌트 렌더링될때마다 항상 재생성되어서도 안되기때문, 리듀서 함수에서는 state 객체와 액션을 받는다(리액트에의해 자동으로)*/
 const cartReducer = (state, action) => {
 	if (action.type === 'ADD') {
+
+		const updatedTotalAmount =
+				state.totalAmount + action.item.price * action.item.amount;
 
 		/*장바구니에있는 기존 항목으로 가서 js 에 내장된 메소드 findIndex 호출
 		* -findIndex : 배열에서 항목의 인덱스를 찾아줌, boolean 으로 반환함*/
@@ -32,9 +38,33 @@ const cartReducer = (state, action) => {
 			updatedItems = state.items.concat(action.item) /* concat 은 기존 배열 편집이 아닌 새 배열을 반환함 */
 		}
 
-		const updatedTotalAmount =
-				state.totalAmount + action.item.price * action.item.amount;
+		return {
+			items: updatedItems,
+			totalAmount: updatedTotalAmount,
+		}
+	}
 
+	/*장바구니 삭제 로직*/
+	if (action.type === 'REMOVE') { /*if 문 위치도 체크해주자 defaultCartState 를 반환하기 전에 다른 액션이 있을 경우를 대비해서 이 위치에서 작업*/
+
+		const existingCartItemIndex = state.items.findIndex((item) =>
+				item.id === action.id /*기존 항목의 인덱스를 찾음 */
+		)
+		const existingItem = state.items[existingCartItemIndex]; /*항목자체를 식별된 인덱스로 가져옴*/
+
+		const updatedTotalAmount = state.totalAmount - existingItem.price /*빼기 수량을 업데이트함, 총액은 삭제된 항목 하나의 가격만큼 감소 */
+		let updatedItems;
+
+		if (existingItem.amount === 1) {
+			/*true 가 반환되면 새로 반환된 배열에 항목을 유지, false 가 반환되면 항목을 삭제*/
+			updatedItems = state.items.filter((item) => item.id !== action.id) /*새 배열을 반환하는 내장 메소드(특정 조건을 적용하여 필터링하며 필터링할 함수를 넣으면 배열의 모든 항목에대해 실행되는 함수임)*/
+		} else {
+			/*- 버튼 클릭시 수량이 1 보다 클 경우 배열에서 항목을 삭제하지않고 수량만 업데이트*/
+			const updatedItem = {...existingItem, amount: existingItem.amount - 1};
+			/*이전 항목을 가지고있는 새 배열을 만듦*/
+			updatedItems = [...state.items]
+			updatedItems[existingCartItemIndex] = updatedItem /*배열에서 이전 항목을 덮어씀, 업데이트된 수량이있는 updatedItems 로 */
+		}
 		return {
 			items: updatedItems,
 			totalAmount: updatedTotalAmount,

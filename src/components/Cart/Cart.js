@@ -14,11 +14,11 @@ const Cart = (props) => {
 	const hasItems = cartCtx.items.length > 0; /*아이템이있는지 여부 체크*/
 
 	const cartItemAddHandler = (item) => {
-
+		cartCtx.addItem(item) /*장바구니 항목의 더하기 버튼 함수(addItem 함수가 트리거가됨 CartProvider 에서 addItemToCartHandler 에 cartAction 을 전달함)*/
 	}
 
 	const cartItemRemoveHandler = (id) => {
-
+		cartCtx.removeItem(id)
 	}
 
 	const cartItems = (
@@ -30,8 +30,12 @@ const Cart = (props) => {
 								name={item.name}
 								amount={item.amount}
 								price={item.price}
-								onAdd={cartItemAddHandler.bind(null, item)} /*bind method 는 함수를 사전에 구성함 향후 실행을 위해서 기본적으로 인수를 미리 구성할 수 있음 함수가 실행될때 받을 인수*/
-								onRemove={cartItemRemoveHandler.bind(null,item.id)} /*추가되거나 삭제된 항목의 id 가 remove 핸들러로 전달됨*/
+								/*bind method 는 함수를 사전에 구성함 향후 실행을 위해서 기본적으로 인수를 미리 구성할 수 있음 함수가 실행될때 받을 인수
+								* -컴포넌트와 이벤트 함수를 연결하는것
+								* -바인딩하지않아도 이벤트 함수는 실행되지만 어떤 컴포넌트가 호출했는지 알수없음
+								* -바인딩하지않으면 이벤트 함수에서 this.state or this.props 사용할경우 undefined 로 처리됨*/
+								onAdd={cartItemAddHandler.bind(null, item)}
+								onRemove={cartItemRemoveHandler.bind(null,item.id)} /*추가되거나 삭제될 항목의 id 가 remove 핸들러로 전달됨*/
 						/>
 				)}
 
