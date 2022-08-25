@@ -70,6 +70,10 @@ const cartReducer = (state, action) => {
 			totalAmount: updatedTotalAmount,
 		}
 	}
+	/*주문 완료 후 Cart 비워주기*/
+	if (action.type === 'CLEAR') {
+		return defaultCartState;
+	}
 	return defaultCartState;
 }
 
@@ -87,13 +91,26 @@ const CartProvider = (props) => {
 	}
 	/*장바구니에서 아이템 삭제하는 함수*/
 	const removeItemFromCartHandler = (id) => {
-		dispatchCartAction({type: 'REMOVE', id: id})
+		dispatchCartAction(
+				{
+					type: 'REMOVE',
+					id: id,
+				})
 	}
+
+	/*장바구니 주문 완료 후 비워주는 함수*/
+	const clearCartHandler = () => {
+		dispatchCartAction({
+			type: 'CLEAR',
+		})
+	}
+
 	const cartContext = {
 		items: cartState.items, /*item 은 state 로 관리 totalAmount 는 cartState.totalAmount 로 관리*/
 		totalAmount: cartState.totalAmount,
 		addItem: addItemToCartHandler,
 		removeItem: removeItemFromCartHandler,
+		clearCart: clearCartHandler,
 	}
 	return (
 			/*context 에 접근해야하는 컴포넌트를 CartContext.Provider 로 감싼것

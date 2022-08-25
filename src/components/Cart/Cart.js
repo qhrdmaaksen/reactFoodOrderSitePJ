@@ -1,4 +1,4 @@
-import {useContext, useState} from 'react';
+import {Fragment, useContext, useState} from 'react';
 import classes from './Cart.module.css'
 import Modal from '../UI/Modal'
 import CartContext from '../../store/cart-context'
@@ -8,6 +8,8 @@ import Checkout from './Checkout'
 /*내 장바구니*/
 const Cart = (props) => {
 	const [isCheckout, setIsCheckout] = useState(false)
+	const [isSubmitting, setIsSubmitting] = useState(false)
+	const [didSubmit, setDidSubmit] = useState(false)
 	const cartCtx = useContext(CartContext)
 
 	const totalAmount = `${cartCtx.totalAmount} 원`
@@ -27,8 +29,9 @@ const Cart = (props) => {
 	}
 
 	/*userData 와 Cart 데이터 모두 전송*/
-	const submitOrderHandler = (userData) => {
-		fetch('https://react-http-d5583-default-rtdb.firebaseio.com/order.json',
+	const submitOrderHandler = async (userData) => {
+		setIsSubmitting(true)
+		await fetch('https://react-http-d5583-default-rtdb.firebaseio.com/order.json',
 				{
 					method: 'POST',
 					body: JSON.stringify({
@@ -36,6 +39,9 @@ const Cart = (props) => {
 						orderedItems: cartCtx.items, /*item 항목*/
 					})
 				})
+		setIsSubmitting(false)
+		setDidSubmit(true)
+		cartCtx.clearCart() /*cart 주문 완료 후 내 장바구니 비워주기*/
 	}
 
 	const cartItems = (
@@ -81,8 +87,24 @@ const Cart = (props) => {
 			</div>
 	)
 
-	return (
-			<Modal onClose={props.onClose}>
+	/*현재 제출하는 중인 경우 표시되어야하는 컨텐츠*/
+	const isSubmittingModalContent = <p>주문 정보 전송중...</p>
+
+	/*주문 완료 시 */
+	const didSubmitModalContent = (
+			<Fragment>
+				<p>주문이 성공적으로 전송되었습니다. 감사합니다.</p>
+				<div className={classes.actions}>
+					<button className={classes.button} onClick={props.onClose}>
+						닫기
+					</button>
+				</div>
+			</Fragment>
+	)
+
+	/*제출 중일때와 제출이 완료됐을때*/
+	const cartModalContent = (
+			<Fragment>
 				{cartItems}
 				<div className={classes.total}>
 					<span>총 합계</span>
@@ -90,6 +112,14 @@ const Cart = (props) => {
 				</div>
 				{isCheckout && <Checkout onConfirm={submitOrderHandler} onCancel={props.onClose}/>}
 				{!isCheckout && modalActions}
+			</Fragment>
+	)
+
+	return (
+			<Modal onClose={props.onClose}>
+				{!isSubmitting && !didSubmit && cartModalContent} {/*제출중이지 않으며, 아직 제출하지 않았을땐 cartModalContent 표현*/}
+				{isSubmitting && isSubmittingModalContent}
+				{!isSubmitting && didSubmit && didSubmitModalContent} {/*제출 중이진 않지만 제출했을 경우 didSubmitModalContent 표현*/}
 			</Modal>
 	)
 }
