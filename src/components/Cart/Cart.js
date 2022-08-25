@@ -1,30 +1,35 @@
-import React, {useContext} from 'react';
+import {useContext, useState} from 'react';
 import classes from './Cart.module.css'
 import Modal from '../UI/Modal'
 import CartContext from '../../store/cart-context'
 import CartItem from './CartItem'
+import Checkout from './Checkout'
 
 /*내 장바구니*/
 const Cart = (props) => {
-
+	const [isCheckout, setIsCheckout] = useState(false)
 	const cartCtx = useContext(CartContext)
 
 	const totalAmount = `${cartCtx.totalAmount} 원`
-
 	const hasItems = cartCtx.items.length > 0; /*아이템이있는지 여부 체크*/
-
-	const cartItemAddHandler = (item) => {
-		cartCtx.addItem(item) /*장바구니 항목의 더하기 버튼 함수(addItem 함수가 트리거가됨 CartProvider 에서 addItemToCartHandler 에 cartAction 을 전달함)*/
-	}
 
 	const cartItemRemoveHandler = (id) => {
 		cartCtx.removeItem(id)
 	}
 
+	const cartItemAddHandler = (item) => {
+		cartCtx.addItem(item) /*장바구니 항목의 더하기 버튼 함수(addItem 함수가 트리거가됨 CartProvider 에서 addItemToCartHandler 에 cartAction 을 전달함)*/
+	}
+
+	const orderHandler = () => {
+		setIsCheckout(true)
+		console.log('Cart comp orderHandler Fn :::')
+	}
+
 	const cartItems = (
-			<ul className={classes[`cart-items`]}
+			<ul className={classes['cart-items']}
 			>
-				{cartCtx.items.map((item) =>
+				{cartCtx.items.map((item) =>(
 						<CartItem
 								key={item.id}
 								name={item.name}
@@ -34,10 +39,10 @@ const Cart = (props) => {
 								* -컴포넌트와 이벤트 함수를 연결하는것
 								* -바인딩하지않아도 이벤트 함수는 실행되지만 어떤 컴포넌트가 호출했는지 알수없음
 								* -바인딩하지않으면 이벤트 함수에서 this.state or this.props 사용할경우 undefined 로 처리됨*/
+								onRemove={cartItemRemoveHandler.bind(null, item.id)} /*추가되거나 삭제될 항목의 id 가 remove 핸들러로 전달됨*/
 								onAdd={cartItemAddHandler.bind(null, item)}
-								onRemove={cartItemRemoveHandler.bind(null,item.id)} /*추가되거나 삭제될 항목의 id 가 remove 핸들러로 전달됨*/
 						/>
-				)}
+				))}
 
 				{/*더미 test 배열{[
 					{
@@ -50,6 +55,20 @@ const Cart = (props) => {
 			</ul>
 	);
 
+	const modalActions = (
+			<div className={classes.actions}>
+				{!hasItems && <p>장바구니에 추가된 메뉴가 없습니다.</p>}
+				<button className={classes['button--alt']} onClick={props.onClose}>
+					닫기
+				</button>
+				{hasItems && (
+						<button className={classes.button} onClick={orderHandler}>
+							주문
+						</button>
+				)}
+			</div>
+	)
+
 	return (
 			<Modal onClose={props.onClose}>
 				{cartItems}
@@ -57,11 +76,8 @@ const Cart = (props) => {
 					<span>총 합계</span>
 					<span>{totalAmount}</span>
 				</div>
-				<div className={classes.actions}>
-					{!hasItems && <p>장바구니에 추가된 메뉴가 없습니다.</p>}
-					<button className={classes[`button--alt`]} onClick={props.onClose}>닫기</button>
-					{hasItems && <button className={classes.button}>주문</button>}
-				</div>
+				{isCheckout && <Checkout onCancel={props.onClose} />}
+				{!isCheckout && modalActions}
 			</Modal>
 	)
 }

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import classes from './AvailableMenu.module.css'
 import Card from '../UI/Card'
 import MenuItem from './MenuItem/MenuItem'

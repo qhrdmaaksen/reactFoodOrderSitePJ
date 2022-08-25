@@ -28,14 +28,13 @@ const HeaderCartButton = (props) => {
 
 	/*Bump animation class 를 버튼 클래스가 포함하도록함, 그리고 다시 삭제하는 타이머 설정*/
 	useEffect(() => {
-		if (cartCtx.items.length === 0) {
+		if (items.length === 0) {
 			return;
 		}
 		setBtnIsHighlighted(true)
 
 		const timer = setTimeout(()=>{
 			setBtnIsHighlighted(false)
-
 		},300)
 
 		/*클린업 함수 추가, 이전 타이머를 삭제 후 새 타이머 설정 , 버튼은 항상 있어야함을 고려하고 타이머 또는 실행 중일 수도 있는 기타 사이드이펙트는, 정리하는 것이 좋은 습관임*/
