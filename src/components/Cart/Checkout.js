@@ -25,7 +25,6 @@ const Checkout = (props) => {
 
 	const confirmHandler = (event) => {
 		event.preventDefault();
-		console.log('Checkout comp confirmHandler Fn')
 		const enteredName = nameInputRef.current.value;
 		const enteredStreet = streetInputRef.current.value;
 		const enteredCity = cityInputRef.current.value;
@@ -37,6 +36,7 @@ const Checkout = (props) => {
 		const enteredCityIsValid = !isEmpty(enteredCity);
 		const enteredPostalCodeIsValid = isFiveChars(enteredPostalCode);
 
+		console.log('Checkout comp confirmHandler Fn')
 		/*입력이 되어있다면 각 초기 객체에 새로 덮어씌움*/
 		setFormInputsValidity({
 			name: enteredNameIsValid,
@@ -51,6 +51,14 @@ const Checkout = (props) => {
 		if (!formIsValid) {
 			return console.log('formIsValid 에러 발생');
 		}
+		/*Cart.js submitOrderHandler 함수가 내부에서 Checkout 컴포넌트로 호출되고 그것이 해당 userData(사용자 데이터)를 받았는지 확인
+		* -Cart.js submitOrderHandler 함수의 인자로 보낼 userData 를 객체로 그룹화*/
+		props.onConfirm({
+			name: enteredName,
+			street: enteredStreet,
+			city: enteredCity,
+			postalCode: enteredPostalCode,
+		})
 	}
 
 	/*formInputsValidity 가 true 라면 기존 classes.control, false 라면 classes.invalid 로 사용*/

@@ -26,10 +26,22 @@ const Cart = (props) => {
 		console.log('Cart comp orderHandler Fn :::')
 	}
 
+	/*userData 와 Cart 데이터 모두 전송*/
+	const submitOrderHandler = (userData) => {
+		fetch('https://react-http-d5583-default-rtdb.firebaseio.com/order.json',
+				{
+					method: 'POST',
+					body: JSON.stringify({
+						user: userData,
+						orderedItems: cartCtx.items, /*item 항목*/
+					})
+				})
+	}
+
 	const cartItems = (
 			<ul className={classes['cart-items']}
 			>
-				{cartCtx.items.map((item) =>(
+				{cartCtx.items.map((item) => (
 						<CartItem
 								key={item.id}
 								name={item.name}
@@ -76,7 +88,7 @@ const Cart = (props) => {
 					<span>총 합계</span>
 					<span>{totalAmount}</span>
 				</div>
-				{isCheckout && <Checkout onCancel={props.onClose} />}
+				{isCheckout && <Checkout onConfirm={submitOrderHandler} onCancel={props.onClose}/>}
 				{!isCheckout && modalActions}
 			</Modal>
 	)
