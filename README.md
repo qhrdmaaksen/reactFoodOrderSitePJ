@@ -31,12 +31,15 @@ Components
     Input.js : 입력 담당 컴포넌트
     Modal.js : 모달 오버레이로 내 장바구니 팝업에 사용
   store 폴더 : 컨텍스트 스토어
-    cart-context.js : 메뉴 아이템, 가격, 수량, 메뉴 추가 및 삭제 , 초기화 등 초기 값을 각 컴포넌트에서 활요토록 함
-    CartProvider.js : 장바구니 추가 및 삭제 , 장바구니 데이터, 장바구니 초기화 관련 로직으로 필요 컴포넌트에서 활용 가능토록 함
+    cart-context.js : 메뉴 아이템, 가격, 수량, 메뉴 추가 및 삭제 , 초기화 등 초기 값을 
+                      각 컴포넌트에서 활요토록 함
+    CartProvider.js : 장바구니 추가 및 삭제 , 장바구니 데이터, 장바구니 초기화 관련 로직으로 
+                       필요 컴포넌트에서 활용 가능토록 함
 
 Function
   Cart.js
-    cartItemRemoveHandler : 장바구니에 담겨있는 메뉴의 아이디를 받아 컨텍스트 스토어 활용하여 메뉴 삭제토록 함
+    cartItemRemoveHandler : 장바구니에 담겨있는 메뉴의 아이디를 받아 
+                            컨텍스트 스토어 활용하여 메뉴 삭제토록 함
     cartItemAddHandler : 장바구니에 메뉴를 추가함
     orderHandler : 주문 버튼을 눌렀는지 상태 관리 함수
     submitOrderHandler : 장바구니 데이터 및 유저 정보 전송 함수
